@@ -24,7 +24,7 @@ const mapKeys = [
     keys: ["ArrowRight", "KeyD"],
   },
   {
-    name: "jump ",
+    name: "jump",
     keys: ["Space"],
   },
 ];
