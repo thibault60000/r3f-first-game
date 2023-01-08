@@ -1,11 +1,14 @@
 import { RigidBody, useRapier } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { Vector3 } from "three";
 
 export default function Player() {
   const rigidBodyRef = useRef();
   const [subscribeKeys, getKeys] = useKeyboardControls();
+  const [smoothedCameraPosition] = useState(() => new Vector3(6, 6, 6));
+  const [smoothedCameraTarget] = useState(() => new Vector3());
 
   const { rapier, world } = useRapier();
   const rapierWorld = world.raw();
@@ -36,7 +39,7 @@ export default function Player() {
     };
   }, []);
 
-  useFrame((state, delta) => {
+  const manageControls = (state, delta) => {
     const keys = getKeys();
     const { forward, backward, left, right, jump } = keys;
 
@@ -65,7 +68,32 @@ export default function Player() {
 
     rigidBodyRef.current.applyImpulse(impulse);
     rigidBodyRef.current.applyTorqueImpulse(torque);
+  };
+
+  const manageCamera = ({ camera }, delta) => {
+    const rigidBodyPosition = rigidBodyRef.current.translation();
+
+    const cameraPosition = new Vector3();
+    cameraPosition.copy(rigidBodyPosition);
+    cameraPosition.z += 2.25;
+    cameraPosition.y += 0.65;
+
+    const cameraTarget = new Vector3();
+    cameraTarget.copy(rigidBodyPosition);
+    cameraTarget.y += 0.25;
+
+    smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
+    smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
+
+    camera.position.copy(smoothedCameraPosition);
+    camera.lookAt(smoothedCameraTarget);
+  };
+
+  useFrame((state, delta) => {
+    manageControls(state, delta);
+    manageCamera(state, delta);
   });
+
   return (
     <RigidBody
       ref={rigidBodyRef}
