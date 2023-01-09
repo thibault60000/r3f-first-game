@@ -6,8 +6,8 @@ import { useGLTF, Float, Text } from "@react-three/drei";
 THREE.ColorManagement.legacyMode = false;
 
 const BLOCK_WIDTH = 4;
-const OBSTACLE_SPEED = 1;
-const TIME_OFFSET = 2;
+const OBSTACLE_SPEED = 1.3;
+const TIME_OFFSET = 2.5;
 
 // Geometries
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
@@ -23,8 +23,13 @@ const secondaryBlockMaterial = new THREE.MeshStandardMaterial({
   metalness: 0,
   roughness: 0,
 });
+
+const hue = Math.floor(Math.random() * 360);
+const saturation = Math.floor(Math.random() * 100);
+const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
+
 const obstacleMaterial = new THREE.MeshStandardMaterial({
-  color: "#FF0000",
+  color: randomColor,
   metalness: 0,
   roughness: 1,
 });
@@ -37,7 +42,7 @@ const wallMaterial = new THREE.MeshStandardMaterial({
 function BlockStart({ position = [0, 0, 0] }) {
   return (
     <group position={position}>
-      <Float floatIntensity={0.2} rotationIntensity={0.2}>
+      <Float floatIntensity={0.3} rotationIntensity={0.3}>
         <Text
           font='/bebas-neue-v9-latin-regular.woff'
           scale={0.3}
@@ -49,6 +54,20 @@ function BlockStart({ position = [0, 0, 0] }) {
         >
           <meshBasicMaterial color='hotpink' toneMapped={false} />
           Let's go !
+        </Text>
+      </Float>
+      <Float floatIntensity={0.3} rotationIntensity={0.3}>
+        <Text
+          font='/bebas-neue-v9-latin-regular.woff'
+          scale={0.2}
+          maxWidth={5}
+          lineHeight={0.8}
+          textAlign='left'
+          position={[-0.75, 0.65, 0]}
+          rotation-y={0.25}
+        >
+          <meshBasicMaterial color='white' toneMapped={false} />
+          Press R to Restart
         </Text>
       </Float>
       {/* FLOOR */}

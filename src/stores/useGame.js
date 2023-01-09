@@ -6,7 +6,7 @@ export default create(
   subscribeWithSelector((set) => {
     return {
       // State
-      blocksCount: 10,
+      blocksCount: 20,
       blocksSeed: 0,
       status: "ready", // or 'playing' or 'ending'
       startTime: 0,

@@ -25,6 +25,10 @@ const mapKeys = [
     keys: ["ArrowRight", "KeyD"],
   },
   {
+    name: "restarter",
+    keys: ["KeyR"],
+  },
+  {
     name: "jump",
     keys: ["Space"],
   },

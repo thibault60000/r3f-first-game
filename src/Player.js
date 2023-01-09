@@ -66,7 +66,7 @@ export default function Player() {
 
   const manageControls = (state, delta) => {
     const keys = getKeys();
-    const { forward, backward, left, right, jump } = keys;
+    const { forward, backward, left, right, restarter } = keys;
 
     const impulse = { x: 0, y: 0, z: 0 };
     const torque = { x: 0, y: 0, z: 0 };
@@ -89,6 +89,10 @@ export default function Player() {
     if (left) {
       impulse.x -= impulseStrength;
       torque.z += torqueStrength;
+    }
+
+    if (restarter) {
+      restart();
     }
 
     rigidBodyRef.current.applyImpulse(impulse);
