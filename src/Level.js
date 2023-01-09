@@ -24,15 +24,6 @@ const secondaryBlockMaterial = new THREE.MeshStandardMaterial({
   roughness: 0,
 });
 
-const hue = Math.floor(Math.random() * 360);
-const saturation = Math.floor(Math.random() * 100);
-const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
-
-const obstacleMaterial = new THREE.MeshStandardMaterial({
-  color: randomColor,
-  metalness: 0,
-  roughness: 1,
-});
 const wallMaterial = new THREE.MeshStandardMaterial({
   color: "#887777",
   metalness: 0,
@@ -149,6 +140,16 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
     obstacleRef.current.setNextKinematicRotation(rotation);
   });
 
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = Math.floor(Math.random() * 100);
+  const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
+
+  const obstacleMaterial = new THREE.MeshStandardMaterial({
+    color: randomColor,
+    metalness: 0,
+    roughness: 1,
+  });
+
   return (
     <group position={position}>
       {/* FLOOR */}
@@ -193,6 +194,16 @@ export function BlockHorizontal({ position = [0, 0, 0] }) {
       y: position[1] + y,
       z: position[2],
     });
+  });
+
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = Math.floor(Math.random() * 100);
+  const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
+
+  const obstacleMaterial = new THREE.MeshStandardMaterial({
+    color: randomColor,
+    metalness: 0,
+    roughness: 1,
   });
 
   return (
@@ -241,6 +252,16 @@ export function BlockVertical({ position = [0, 0, 0] }) {
     });
   });
 
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = Math.floor(Math.random() * 100);
+  const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
+
+  const obstacleMaterial = new THREE.MeshStandardMaterial({
+    color: randomColor,
+    metalness: 0,
+    roughness: 1,
+  });
+
   return (
     <group position={position}>
       {/* FLOOR */}
@@ -277,21 +298,21 @@ function Bounds({ length = 1 }) {
         position={[2.15, 0.75, -(length * 2) + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[0.3, 1.5, 4 * length]}
+        scale={[0.3, 3, 4 * length]}
         castShadow
       />
       <mesh
         position={[-2.15, 0.75, -(length * 2) + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[0.3, 1.5, 4 * length]}
+        scale={[0.3, 3, 4 * length]}
         receiveShadow
       />
       <mesh
         position={[0, 0.75, -length * 4 + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[4, 1.5, 0.3]}
+        scale={[4, 3, 0.3]}
         receiveShadow
       />
       <CuboidCollider
