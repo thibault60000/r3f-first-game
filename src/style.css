@@ -65,6 +65,10 @@ body,
   margin: 4px;
   border: 2px solid #fff;
   background: #ffffff44;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 .controls .key.large {
@@ -72,4 +76,5 @@ body,
 }
 .controls .key.active {
   background-color: antiquewhite;
+  color: black;
 }

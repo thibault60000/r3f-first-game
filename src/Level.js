@@ -98,7 +98,7 @@ function BlockEnd({ position = [0, 0, 0] }) {
           maxWidth={2.5}
           lineHeight={0.75}
           textAlign='right'
-          position={[0, 1.8, 2]}
+          position={[0, 1.8, 0.75]}
           rotation-y={-0.25}
         >
           <meshBasicMaterial color='grey' toneMapped={false} />
@@ -149,12 +149,6 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
   const saturation = Math.floor(Math.random() * 100);
   const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
 
-  const obstacleMaterial = new THREE.MeshStandardMaterial({
-    color: randomColor,
-    metalness: 0,
-    roughness: 1,
-  });
-
   return (
     <group position={position}>
       {/* FLOOR */}
@@ -173,12 +167,9 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
         restitution={0.2}
         friction={0}
       >
-        <mesh
-          geometry={boxGeometry}
-          receiveShadow
-          material={obstacleMaterial}
-          scale={[3.5, 0.3, 0.3]}
-        ></mesh>
+        <mesh geometry={boxGeometry} receiveShadow scale={[3.5, 0.3, 0.3]}>
+          <meshStandardMaterial color={randomColor} />
+        </mesh>
       </RigidBody>
     </group>
   );
@@ -205,12 +196,6 @@ export function BlockHorizontal({ position = [0, 0, 0] }) {
   const saturation = Math.floor(Math.random() * 100);
   const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
 
-  const obstacleMaterial = new THREE.MeshStandardMaterial({
-    color: randomColor,
-    metalness: 0,
-    roughness: 1,
-  });
-
   return (
     <group position={position}>
       {/* FLOOR */}
@@ -229,12 +214,9 @@ export function BlockHorizontal({ position = [0, 0, 0] }) {
         restitution={0.2}
         friction={0}
       >
-        <mesh
-          geometry={boxGeometry}
-          receiveShadow
-          material={obstacleMaterial}
-          scale={[3.5, 0.3, 0.3]}
-        ></mesh>
+        <mesh geometry={boxGeometry} receiveShadow scale={[3.5, 0.3, 0.3]}>
+          <meshStandardMaterial color={randomColor} />
+        </mesh>
       </RigidBody>
     </group>
   );
@@ -261,12 +243,6 @@ export function BlockVertical({ position = [0, 0, 0] }) {
   const saturation = Math.floor(Math.random() * 100);
   const randomColor = "hsl(" + hue + "," + saturation + "%," + "80%)";
 
-  const obstacleMaterial = new THREE.MeshStandardMaterial({
-    color: randomColor,
-    metalness: 0,
-    roughness: 1,
-  });
-
   return (
     <group position={position}>
       {/* FLOOR */}
@@ -276,7 +252,7 @@ export function BlockVertical({ position = [0, 0, 0] }) {
         scale={[BLOCK_WIDTH, 0.2, BLOCK_WIDTH]}
         receiveShadow
         position={[0, -0.1, 0]}
-      />
+      ></mesh>
       {/* Obstacle */}
       <RigidBody
         ref={obstacleRef}
@@ -285,12 +261,9 @@ export function BlockVertical({ position = [0, 0, 0] }) {
         restitution={0.2}
         friction={0}
       >
-        <mesh
-          geometry={boxGeometry}
-          receiveShadow
-          material={obstacleMaterial}
-          scale={[1.5, 1.5, 0.3]}
-        ></mesh>
+        <mesh geometry={boxGeometry} receiveShadow scale={[1.5, 1.5, 0.3]}>
+          <meshStandardMaterial color={randomColor} />
+        </mesh>
       </RigidBody>
     </group>
   );
