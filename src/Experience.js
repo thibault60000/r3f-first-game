@@ -9,6 +9,7 @@ import { Physics, Debug } from "@react-three/rapier";
 import Player from "./Player.js";
 import useGame from "./stores/useGame.js";
 import Effects from "./Effects.js";
+import { Perf } from "r3f-perf";
 
 export default function Experience() {
   const blocksCount = useGame((state) => state.blocksCount);
@@ -27,6 +28,7 @@ export default function Experience() {
         />
         <Player />
       </Physics>
+      <Perf position='top-left' />
       <Effects />
     </>
   );
