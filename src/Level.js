@@ -132,11 +132,16 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
 
   const [speed] = useState(() => Math.random() * OBSTACLE_SPEED);
 
+  const positiveOrNegative = Math.round(Math.random()) * 2 - 1;
+
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
     const rotation = new THREE.Quaternion();
-    rotation.setFromEuler(new THREE.Euler(0, time * speed, 0));
+
+    rotation.setFromEuler(
+      new THREE.Euler(0, positiveOrNegative * time * speed, 0)
+    );
     obstacleRef.current.setNextKinematicRotation(rotation);
   });
 
@@ -298,21 +303,21 @@ function Bounds({ length = 1 }) {
         position={[2.15, 0.75, -(length * 2) + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[0.3, 5, 4 * length]}
+        scale={[0.3, 6, 4 * length]}
         castShadow
       />
       <mesh
         position={[-2.15, 0.75, -(length * 2) + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[0.3, 5, 4 * length]}
+        scale={[0.3, 6, 4 * length]}
         receiveShadow
       />
       <mesh
         position={[0, 0.75, -length * 4 + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[4, 5, 0.3]}
+        scale={[4, 6, 0.3]}
         receiveShadow
       />
       <CuboidCollider
