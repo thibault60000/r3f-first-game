@@ -30,6 +30,12 @@ const wallMaterial = new THREE.MeshStandardMaterial({
   roughness: 0,
 });
 
+const obstacleMaterial = new THREE.MeshStandardMaterial({
+  color: randomColor,
+  metalness: 0,
+  roughness: 1,
+});
+
 function BlockStart({ position = [0, 0, 0] }) {
   return (
     <group position={position}>
@@ -149,11 +155,7 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
   const saturation = Math.floor(Math.random() * 100);
   const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
 
-  const obstacleMaterial = new THREE.MeshStandardMaterial({
-    color: randomColor,
-    metalness: 0,
-    roughness: 1,
-  });
+  obstacleMaterial.color = randomColor;
 
   return (
     <group position={position}>
@@ -205,11 +207,7 @@ export function BlockHorizontal({ position = [0, 0, 0] }) {
   const saturation = Math.floor(Math.random() * 100);
   const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
 
-  const obstacleMaterial = new THREE.MeshStandardMaterial({
-    color: randomColor,
-    metalness: 0,
-    roughness: 1,
-  });
+  obstacleMaterial.color = randomColor;
 
   return (
     <group position={position}>
@@ -259,13 +257,9 @@ export function BlockVertical({ position = [0, 0, 0] }) {
 
   const hue = Math.floor(Math.random() * 360);
   const saturation = Math.floor(Math.random() * 100);
-  const randomColor = "hsl(" + hue + "," + saturation + "%," + "80%)";
+  const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
 
-  const obstacleMaterial = new THREE.MeshStandardMaterial({
-    color: randomColor,
-    metalness: 0,
-    roughness: 1,
-  });
+  obstacleMaterial.color = randomColor;
 
   return (
     <group position={position}>
