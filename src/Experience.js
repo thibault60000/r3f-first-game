@@ -7,19 +7,27 @@ import Level, {
 import Lights from "./Lights.js";
 import { Physics, Debug } from "@react-three/rapier";
 import Player from "./Player.js";
+import useGame from "./stores/useGame.js";
+import Effects from "./Effects.js";
 
 export default function Experience() {
+  const blocksCount = useGame((state) => state.blocksCount);
+  const blocksSeed = useGame((state) => state.blocksSeed);
+
   return (
     <>
       <Physics>
+        <color args={["#252731"]} />
         {/* <Debug /> */}
         <Lights />
         <Level
-          count={5}
+          count={blocksCount}
           obstacles={[BlockSpinner, BlockHorizontal, BlockVertical]}
+          blocksSeed={blocksSeed}
         />
         <Player />
       </Physics>
+      <Effects />
     </>
   );
 }

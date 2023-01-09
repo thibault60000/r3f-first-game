@@ -3,12 +3,18 @@ import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import { useRef, useEffect, useState } from "react";
 import { Vector3 } from "three";
+import useGame from "./stores/useGame.js";
 
 export default function Player() {
   const rigidBodyRef = useRef();
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const [smoothedCameraPosition] = useState(() => new Vector3(6, 6, 6));
   const [smoothedCameraTarget] = useState(() => new Vector3());
+
+  const start = useGame((state) => state.start);
+  const end = useGame((state) => state.end);
+  const restart = useGame((state) => state.restart);
+  const blocksCount = useGame((state) => state.blocksCount);
 
   const { rapier, world } = useRapier();
   const rapierWorld = world.raw();
@@ -17,7 +23,7 @@ export default function Player() {
     const origin = rigidBodyRef.current.translation();
     origin.y = origin.y - 0.31;
 
-    const direction = { x: 0, y: -1, z: 0 };
+    const direction = { x: 0, y: -0.8, z: 0 };
 
     const ray = new rapier.Ray(origin, direction);
 
@@ -28,14 +34,33 @@ export default function Player() {
       rigidBodyRef.current.applyImpulse({ x: 0, y: 0.5, z: 0 });
   };
 
+  const reset = () => {
+    rigidBodyRef.current.setTranslation({ x: 0, y: 0, z: 0 });
+    rigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }); // remove any translation force
+    rigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }); // remove any angular force
+  };
+
   useEffect(() => {
+    const unsubscribeReset = useGame.subscribe(
+      (state) => state.status,
+      (value) => {
+        console.log("reset", value);
+        if (value === "ready") reset();
+      }
+    );
     const unsubscribeJump = subscribeKeys((state) => {
       if (state.jump) jump();
+    });
+
+    const unsubscribeAnyKey = subscribeKeys((state) => {
+      start();
     });
 
     // Call when component unmounts (function destroyed)
     return () => {
       unsubscribeJump();
+      unsubscribeAnyKey();
+      unsubscribeReset();
     };
   }, []);
 
@@ -89,9 +114,22 @@ export default function Player() {
     camera.lookAt(smoothedCameraTarget);
   };
 
+  const managePlayerPosition = (state, delta) => {
+    const rigidBodyPosition = rigidBodyRef.current.translation();
+
+    if (rigidBodyPosition.z < -(blocksCount * 4 + 2)) {
+      end();
+    }
+
+    if (rigidBodyPosition.y < -4) {
+      restart();
+    }
+  };
+
   useFrame((state, delta) => {
     manageControls(state, delta);
     manageCamera(state, delta);
+    managePlayerPosition(state, delta);
   });
 
   return (

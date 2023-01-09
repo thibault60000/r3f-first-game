@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { useRef, useState, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, Float, Text } from "@react-three/drei";
 THREE.ColorManagement.legacyMode = false;
 
 const BLOCK_WIDTH = 4;
@@ -14,17 +14,43 @@ const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 
 // Materials
 const mainBlockMaterial = new THREE.MeshStandardMaterial({
-  color: "limegreen",
+  color: "#111111",
+  metalness: 0,
+  roughness: 0,
 });
 const secondaryBlockMaterial = new THREE.MeshStandardMaterial({
-  color: "greenyellow",
+  color: "#222222",
+  metalness: 0,
+  roughness: 0,
 });
-const obstacleMaterial = new THREE.MeshStandardMaterial({ color: "orangered" });
-const wallMaterial = new THREE.MeshStandardMaterial({ color: "slategray" });
+const obstacleMaterial = new THREE.MeshStandardMaterial({
+  color: "#FF0000",
+  metalness: 0,
+  roughness: 1,
+});
+const wallMaterial = new THREE.MeshStandardMaterial({
+  color: "#887777",
+  metalness: 0,
+  roughness: 0,
+});
 
 function BlockStart({ position = [0, 0, 0] }) {
   return (
     <group position={position}>
+      <Float floatIntensity={0.2} rotationIntensity={0.2}>
+        <Text
+          font='/bebas-neue-v9-latin-regular.woff'
+          scale={0.3}
+          maxWidth={1.5}
+          lineHeight={0.75}
+          textAlign='right'
+          position={[0.75, 0.65, 0]}
+          rotation-y={-0.25}
+        >
+          <meshBasicMaterial color='hotpink' toneMapped={false} />
+          Let's go !
+        </Text>
+      </Float>
       {/* FLOOR */}
       <mesh
         geometry={boxGeometry}
@@ -55,6 +81,20 @@ function BlockEnd({ position = [0, 0, 0] }) {
   });
   return (
     <group position={position}>
+      <Float floatIntensity={0.2} rotationIntensity={0.2}>
+        <Text
+          font='/bebas-neue-v9-latin-regular.woff'
+          scale={0.45}
+          maxWidth={2.5}
+          lineHeight={0.75}
+          textAlign='right'
+          position={[0, 1.8, 2]}
+          rotation-y={-0.25}
+        >
+          <meshBasicMaterial color='grey' toneMapped={false} />
+          Finish !
+        </Text>
+      </Float>
       {/* FLOOR */}
       <mesh
         geometry={boxGeometry}
@@ -248,6 +288,7 @@ function Bounds({ length = 1 }) {
 export default function Level({
   count = 5,
   obstacles = [BlockSpinner, BlockHorizontal, BlockVertical],
+  seed = 0,
 }) {
   const blocks = useMemo(() => {
     const blocks = [];
@@ -257,7 +298,7 @@ export default function Level({
       blocks.push(block);
     }
     return blocks;
-  }, [count, obstacles]);
+  }, [count, obstacles, seed]);
 
   return (
     <>
