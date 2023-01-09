@@ -25,7 +25,7 @@ const secondaryBlockMaterial = new THREE.MeshStandardMaterial({
 });
 
 const wallMaterial = new THREE.MeshStandardMaterial({
-  color: "#887777",
+  color: "#333333",
   metalness: 0,
   roughness: 0,
 });
@@ -254,7 +254,7 @@ export function BlockVertical({ position = [0, 0, 0] }) {
 
   const hue = Math.floor(Math.random() * 360);
   const saturation = Math.floor(Math.random() * 100);
-  const randomColor = "hsl(" + hue + "," + saturation + "%," + "50%)";
+  const randomColor = "hsl(" + hue + "," + saturation + "%," + "80%)";
 
   const obstacleMaterial = new THREE.MeshStandardMaterial({
     color: randomColor,
@@ -298,21 +298,21 @@ function Bounds({ length = 1 }) {
         position={[2.15, 0.75, -(length * 2) + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[0.3, 3, 4 * length]}
+        scale={[0.3, 5, 4 * length]}
         castShadow
       />
       <mesh
         position={[-2.15, 0.75, -(length * 2) + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[0.3, 3, 4 * length]}
+        scale={[0.3, 5, 4 * length]}
         receiveShadow
       />
       <mesh
         position={[0, 0.75, -length * 4 + 2]}
         geometry={boxGeometry}
         material={wallMaterial}
-        scale={[4, 3, 0.3]}
+        scale={[4, 5, 0.3]}
         receiveShadow
       />
       <CuboidCollider
